@@ -1,4 +1,4 @@
-import HeaderContainer from "./component/header/HeaderContainer";
+import HeaderContainer from "./components/header/HeaderContainer";
 
 function App() {
   return (

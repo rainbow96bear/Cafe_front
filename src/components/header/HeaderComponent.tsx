@@ -13,13 +13,14 @@ const HeaderConponent: React.FC<Props> = ({
   disConnectWalletFunc,
   AccountInfo,
 }) => {
+  console.log("AccountInfo", AccountInfo);
   return (
     <HeaderBox>
       <LogoComponent
         src={process.env.PUBLIC_URL + "/img/logo.jpeg"}></LogoComponent>
 
       <HeaderBtn>
-        {AccountInfo?.account ? (
+        {AccountInfo?.account != "disconnect" ? (
           <CursorPointerDiv onClick={disConnectWalletFunc}>
             Disconnect
           </CursorPointerDiv>

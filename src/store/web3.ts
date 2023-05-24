@@ -1,25 +1,58 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { changeThunk } from "./thema";
-// import axios from "axios";
+import API from "../API/API";
 
 export interface AccountInfo {
   account: string;
+  admin: boolean;
 }
 
 export const connectThunk = createAsyncThunk(
-  "connect/changeThunk", // 첫번째 매개변수로 type의 이름을 설정한다.
+  "connect/changeThunk",
   async () => {
     try {
-      // 두번째 매개변수로 reducer를 작성한다.
       const [account] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      return account;
-    } catch (error) {}
+      const result = await API.get("/api/web3/check/admin", {
+        params: { account },
+      });
+      if (result.status == 200) {
+        return { account, admin: result.data.admin };
+      } else {
+        return { account, admin: false };
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
-const initialState: AccountInfo = { account: "" };
+export const checkCookieThunk = createAsyncThunk(
+  "checkCookie/checkCookieThunk",
+  async () => {
+    try {
+      const result = await API.get("/api/web3/check/connect");
+      return result.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const disconnectThunk = createAsyncThunk(
+  "disconnect/disconnectThunk",
+  async () => {
+    try {
+      const result = await API.put("/api/web3/disconnect");
+      return result.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+const initialState: AccountInfo = { account: "", admin: false };
 const connect = createSlice({
   // createSlice로 actions, reducers 등등을 전부 한번에 생성한다.
   name: "thema", // action의 이름, action의 type에 '액션명/리듀서명'으로 표기된다.
@@ -27,13 +60,25 @@ const connect = createSlice({
   reducers: {
     // reducer를 만든다.
     disConnect: (state) => {
+      // cookie와 session 삭제
       state.account = "";
+      state.admin = false;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(connectThunk.fulfilled, (state, action) => {
-      state.account = action.payload;
-    });
+    builder
+      .addCase(connectThunk.fulfilled, (state, action) => {
+        state.account = action.payload?.account;
+        state.admin = action.payload?.admin;
+      })
+      .addCase(disconnectThunk.fulfilled, (state, action) => {
+        state.account = action.payload?.account;
+        state.admin = action.payload?.admin;
+      })
+      .addCase(checkCookieThunk.fulfilled, (state, action) => {
+        state.account = action.payload?.account;
+        state.admin = action.payload?.admin;
+      });
   },
 });
 

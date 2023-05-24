@@ -1,9 +1,13 @@
-import Web3 from "web3";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 import HeaderConponent from "./HeaderComponent";
-import { action, connectThunk } from "../../store/web3";
+import {
+  action,
+  connectThunk,
+  checkCookieThunk,
+  disconnectThunk,
+} from "../../store/web3";
+import { useEffect } from "react";
 
 const HeaderContainer = () => {
   const dispatch = useDispatch<any>();
@@ -17,12 +21,17 @@ const HeaderContainer = () => {
   };
   const disConnectWalletFunc = async () => {
     if (window.ethereum) {
-      dispatch(action.disConnect());
+      dispatch(disconnectThunk());
     } else {
       alert("metamask 설치해주세요");
     }
   };
-
+  useEffect(() => {
+    dispatch(checkCookieThunk());
+    window.ethereum.on("accountsChanged", () => {
+      connectWalletFunc();
+    });
+  }, []);
   return (
     <HeaderConponent
       connectWalletFunc={connectWalletFunc}
