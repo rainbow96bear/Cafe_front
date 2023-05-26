@@ -17,19 +17,15 @@ export const connectThunk = createAsyncThunk(
       const result = await API.get("/api/web3/check/admin", {
         params: { account },
       });
-      if (result.status == 200) {
-        return { account, admin: result.data.admin };
-      } else {
-        return { account, admin: false };
-      }
+      return { account: result.data.account, admin: result.data.admin };
     } catch (error) {
       console.log(error);
     }
   }
 );
 
-export const checkCookieThunk = createAsyncThunk(
-  "checkCookie/checkCookieThunk",
+export const checkSessionThunk = createAsyncThunk(
+  "checkSession/checkSessionThunk",
   async () => {
     try {
       const result = await API.get("/api/web3/check/connect");
@@ -52,7 +48,7 @@ export const disconnectThunk = createAsyncThunk(
   }
 );
 
-const initialState: AccountInfo = { account: "", admin: false };
+const initialState: AccountInfo = { account: "disconnect", admin: false };
 const connect = createSlice({
   // createSlice로 actions, reducers 등등을 전부 한번에 생성한다.
   name: "thema", // action의 이름, action의 type에 '액션명/리듀서명'으로 표기된다.
@@ -75,7 +71,7 @@ const connect = createSlice({
         state.account = action.payload?.account;
         state.admin = action.payload?.admin;
       })
-      .addCase(checkCookieThunk.fulfilled, (state, action) => {
+      .addCase(checkSessionThunk.fulfilled, (state, action) => {
         state.account = action.payload?.account;
         state.admin = action.payload?.admin;
       });

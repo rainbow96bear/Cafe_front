@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 import HeaderConponent from "./HeaderComponent";
 import {
-  action,
   connectThunk,
-  checkCookieThunk,
+  checkSessionThunk,
   disconnectThunk,
 } from "../../store/web3";
-import { useEffect } from "react";
+import API from "../../API/API";
 
 const HeaderContainer = () => {
   const dispatch = useDispatch<any>();
@@ -27,16 +27,24 @@ const HeaderContainer = () => {
     }
   };
   useEffect(() => {
-    dispatch(checkCookieThunk());
-    window.ethereum.on("accountsChanged", () => {
-      connectWalletFunc();
+    window.ethereum.on("accountsChanged", async () => {
+      const result = await API.get("/api/web3/check/connect");
+      if (result.data.account != "disconnect") {
+        connectWalletFunc();
+      }
     });
   }, []);
+  useEffect(() => {
+    dispatch(checkSessionThunk());
+  }, []);
+
+  const testItems = [{ text: "disconnect", func: disConnectWalletFunc }];
   return (
     <HeaderConponent
       connectWalletFunc={connectWalletFunc}
       disConnectWalletFunc={disConnectWalletFunc}
-      AccountInfo={AccountInfo}></HeaderConponent>
+      AccountInfo={AccountInfo}
+      items={testItems}></HeaderConponent>
   );
 };
 

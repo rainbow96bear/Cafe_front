@@ -1,32 +1,40 @@
 import styled from "styled-components";
 
 import CursorPointerDiv from "../../customComponent/CursorPointerDiv";
+import DropdownContainer from "../dropdown/DropdownContainer";
 
 type Props = {
   connectWalletFunc: () => void;
   disConnectWalletFunc: () => void;
   AccountInfo: { account: string };
+  items: DropdownItems[];
 };
 
 const HeaderConponent: React.FC<Props> = ({
   connectWalletFunc,
   disConnectWalletFunc,
   AccountInfo,
+  items,
 }) => {
-  console.log("AccountInfo", AccountInfo);
   return (
     <HeaderBox>
       <LogoComponent
         src={process.env.PUBLIC_URL + "/img/logo.jpeg"}></LogoComponent>
 
       <HeaderBtn>
-        {AccountInfo?.account != "disconnect" ? (
-          <CursorPointerDiv onClick={disConnectWalletFunc}>
-            Disconnect
+        {AccountInfo?.account == "disconnect" ||
+        AccountInfo?.account == undefined ? (
+          <CursorPointerDiv onClick={connectWalletFunc}>
+            {"Connect Wallet"}
           </CursorPointerDiv>
         ) : (
-          <CursorPointerDiv onClick={connectWalletFunc}>
-            Connect Wallet
+          <CursorPointerDiv>
+            <DropdownContainer
+              title={`${AccountInfo.account.slice(
+                0,
+                5
+              )}...${AccountInfo?.account.slice(-3)}`}
+              items={items}></DropdownContainer>
           </CursorPointerDiv>
         )}
       </HeaderBtn>
