@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import HeaderConponent from "./HeaderComponent";
 import {
@@ -12,6 +13,8 @@ import API from "../../API/API";
 const HeaderContainer = () => {
   const dispatch = useDispatch<any>();
   const AccountInfo = useSelector((state: any) => state.web3);
+  const navigate = useNavigate();
+
   const connectWalletFunc = async () => {
     if (window.ethereum) {
       dispatch(connectThunk());
@@ -26,6 +29,7 @@ const HeaderContainer = () => {
       alert("metamask 설치해주세요");
     }
   };
+
   useEffect(() => {
     window.ethereum.on("accountsChanged", async () => {
       const result = await API.get("/api/web3/check/connect");
@@ -38,11 +42,13 @@ const HeaderContainer = () => {
     dispatch(checkSessionThunk());
   }, []);
 
-  const testItems = [{ text: "disconnect", func: disConnectWalletFunc }];
+  const testItems = [
+    { text: "disconnect", func: disConnectWalletFunc },
+    { text: "admin", func: navigate("/admin") },
+  ];
   return (
     <HeaderConponent
       connectWalletFunc={connectWalletFunc}
-      disConnectWalletFunc={disConnectWalletFunc}
       AccountInfo={AccountInfo}
       items={testItems}></HeaderConponent>
   );

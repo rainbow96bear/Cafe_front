@@ -1,18 +1,16 @@
 import styled from "styled-components";
 
 import CursorPointerDiv from "../../customComponent/CursorPointerDiv";
-import DropdownContainer from "../dropdown/DropdownContainer";
+import DropdownContainer from "../../customComponent/dropdown/DropdownContainer";
 
 type Props = {
   connectWalletFunc: () => void;
-  disConnectWalletFunc: () => void;
   AccountInfo: { account: string };
   items: DropdownItems[];
 };
 
 const HeaderConponent: React.FC<Props> = ({
   connectWalletFunc,
-  disConnectWalletFunc,
   AccountInfo,
   items,
 }) => {
@@ -28,14 +26,14 @@ const HeaderConponent: React.FC<Props> = ({
             {"Connect Wallet"}
           </CursorPointerDiv>
         ) : (
-          <CursorPointerDiv>
+          <ConnectBox>
             <DropdownContainer
               title={`${AccountInfo.account.slice(
                 0,
                 5
               )}...${AccountInfo?.account.slice(-3)}`}
               items={items}></DropdownContainer>
-          </CursorPointerDiv>
+          </ConnectBox>
         )}
       </HeaderBtn>
     </HeaderBox>
@@ -63,4 +61,8 @@ const HeaderBtn = styled.button`
   width: fit-content;
   border-radius: 5px;
   border: 1px solid gray;
+`;
+
+const ConnectBox = styled.div`
+  position: relative;
 `;

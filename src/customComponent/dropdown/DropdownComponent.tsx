@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-import CursorPointerDiv from "../../customComponent/CursorPointerDiv";
+import CursorPointerDiv from "../CursorPointerDiv";
 
 type Props = {
   toggleDropdown: () => void;
@@ -33,7 +33,6 @@ const DropdownComponent: React.FC<Props> = ({
               {item.text}
             </li>
           ))}
-          <li>admin</li>
         </ItemBox>
       )}
     </>
@@ -43,13 +42,17 @@ const DropdownComponent: React.FC<Props> = ({
 export default DropdownComponent;
 
 const ItemBox = styled.ul`
-  border: 1px solid red;
+  border: 1px solid lightgray;
+  background-color: white;
   width: fir-content;
-  padding: 5px;
+  padding: 10px;
+  margin: auto;
   position: absolute;
-  right: 0px;
-  top: 15px;
+  top: 40px;
+  right: -9px;
   li {
     list-style-type: none;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 5px;
   }
 `;
