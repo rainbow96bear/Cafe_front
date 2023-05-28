@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import CursorPointerDiv from "../../customComponent/CursorPointerDiv";
 import DropdownContainer from "../../customComponent/dropdown/DropdownContainer";
@@ -16,8 +17,10 @@ const HeaderConponent: React.FC<Props> = ({
 }) => {
   return (
     <HeaderBox>
-      <LogoComponent
-        src={process.env.PUBLIC_URL + "/img/logo.jpeg"}></LogoComponent>
+      <CursorPointerDiv>
+        <LogoComponent
+          src={process.env.PUBLIC_URL + "/img/logo.jpeg"}></LogoComponent>
+      </CursorPointerDiv>
 
       <HeaderBtn>
         {AccountInfo?.account == "disconnect" ||

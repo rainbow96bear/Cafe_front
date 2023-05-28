@@ -25,13 +25,15 @@ const DropdownComponent: React.FC<Props> = ({
       </CursorPointerDiv>
       {isOpen && (
         <ItemBox>
-          {items.map((item) => (
-            <li
-              onClick={() => {
-                item.func();
-              }}>
-              {item.text}
-            </li>
+          {items.map((item, index) => (
+            <CursorPointerDiv key={`list-${index}`}>
+              <li
+                onClick={() => {
+                  item.func();
+                }}>
+                {item.text}
+              </li>
+            </CursorPointerDiv>
           ))}
         </ItemBox>
       )}
@@ -50,6 +52,9 @@ const ItemBox = styled.ul`
   position: absolute;
   top: 40px;
   right: -9px;
+  div {
+    width: 100%;
+  }
   li {
     list-style-type: none;
     border-bottom: 1px solid lightgray;

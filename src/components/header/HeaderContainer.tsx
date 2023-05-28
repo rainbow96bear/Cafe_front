@@ -25,6 +25,7 @@ const HeaderContainer = () => {
   const disConnectWalletFunc = async () => {
     if (window.ethereum) {
       dispatch(disconnectThunk());
+      navigate("/");
     } else {
       alert("metamask 설치해주세요");
     }
@@ -44,7 +45,12 @@ const HeaderContainer = () => {
 
   const testItems = [
     { text: "disconnect", func: disConnectWalletFunc },
-    { text: "admin", func: navigate("/admin") },
+    {
+      text: "admin",
+      func: () => {
+        navigate("/admin");
+      },
+    },
   ];
   return (
     <HeaderConponent

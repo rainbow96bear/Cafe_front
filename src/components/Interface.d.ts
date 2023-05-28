@@ -1,4 +1,4 @@
 interface DropdownItems {
   text: string;
-  func: () => void | useNavigate;
+  func: (where?: string) => void | useNavigate;
 }
