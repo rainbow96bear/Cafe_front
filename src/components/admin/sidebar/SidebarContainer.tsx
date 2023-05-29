@@ -24,6 +24,12 @@ const SidebarContainer = () => {
         navigate("/admin/upload");
       },
     },
+    {
+      title: "DOC 등록",
+      func: () => {
+        navigate("/admin/document");
+      },
+    },
   ];
   return <SidebarComponent sidebarItems={sidebarItems}></SidebarComponent>;
 };

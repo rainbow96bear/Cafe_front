@@ -30,6 +30,7 @@ const DropdownComponent: React.FC<Props> = ({
               <li
                 onClick={() => {
                   item.func();
+                  toggleDropdown();
                 }}>
                 {item.text}
               </li>
