@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainContainer></MainContainer>}></Route>
         <Route
-          path="/admin"
+          path="/admin/*"
           element={<AdminContainer></AdminContainer>}></Route>
       </Routes>
     </div>

@@ -1,14 +1,16 @@
 import { styled } from "styled-components";
 
 type Props = {
-  sidebarItems: string[];
+  sidebarItems: { title: string; func: () => void }[];
 };
 
 const SidebarComponent: React.FC<Props> = ({ sidebarItems }) => {
   return (
     <SidebarBox>
       {sidebarItems.map((item, index) => (
-        <li key={`sidebarItem-${index}`}>{item}</li>
+        <li key={`sidebarItem-${index}`} onClick={item.func}>
+          {item.title}
+        </li>
       ))}
     </SidebarBox>
   );
