@@ -8,7 +8,7 @@ import {
   checkSessionThunk,
   disconnectThunk,
 } from "../../store/web3";
-import API from "../../API/API";
+import axios from "axios";
 
 const HeaderContainer = () => {
   const dispatch = useDispatch<any>();
@@ -33,7 +33,7 @@ const HeaderContainer = () => {
 
   useEffect(() => {
     window.ethereum.on("accountsChanged", async () => {
-      const result = await API.get("/api/web3/check/connect");
+      const result = await axios.get("/api/web3/check/connect");
       if (result.data.account != "disconnect") {
         connectWalletFunc();
       }

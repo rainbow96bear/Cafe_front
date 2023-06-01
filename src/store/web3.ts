@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { changeThunk } from "./thema";
-import API from "../API/API";
+import axios from "axios";
 
 export interface AccountInfo {
   account: string;
@@ -14,7 +13,7 @@ export const connectThunk = createAsyncThunk(
       const [account] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      const result = await API.get("/api/web3/check/admin", {
+      const result = await axios.get("/api/web3/check/admin", {
         params: { account },
       });
       return { account: result.data.account, admin: result.data.admin };
@@ -28,7 +27,7 @@ export const checkSessionThunk = createAsyncThunk(
   "checkSession/checkSessionThunk",
   async () => {
     try {
-      const result = await API.get("/api/web3/check/connect");
+      const result = await axios.get("/api/web3/check/connect");
       return result.data;
     } catch (error) {
       console.log(error);
@@ -40,7 +39,7 @@ export const disconnectThunk = createAsyncThunk(
   "disconnect/disconnectThunk",
   async () => {
     try {
-      const result = await API.put("/api/web3/disconnect");
+      const result = await axios.put("/api/web3/disconnect");
       return result.data;
     } catch (error) {
       console.log(error);

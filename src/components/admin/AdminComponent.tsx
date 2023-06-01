@@ -9,20 +9,25 @@ const AdminComponent = () => {
   return (
     <AdminBox>
       <SideBarContainer></SideBarContainer>
-      <Routes>
-        <Route
-          path="/management"
-          element={<MangementContainer></MangementContainer>}></Route>
-        <Route
-          path="/upload"
-          element={<UploadContainer></UploadContainer>}></Route>
-      </Routes>
+      <DisplayBox>
+        <Routes>
+          <Route
+            path="/management"
+            element={<MangementContainer></MangementContainer>}></Route>
+          <Route
+            path="/upload"
+            element={<UploadContainer></UploadContainer>}></Route>
+        </Routes>
+      </DisplayBox>
     </AdminBox>
   );
 };
 
 export default AdminComponent;
 
-const AdminBox = styled.div`
-  display: flex;
-`;
+const AdminBox = styled("div")({
+  display: "flex",
+});
+const DisplayBox = styled("div")({
+  margin: "auto",
+});

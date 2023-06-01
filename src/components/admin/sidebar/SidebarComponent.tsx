@@ -8,9 +8,9 @@ const SidebarComponent: React.FC<Props> = ({ sidebarItems }) => {
   return (
     <SidebarBox>
       {sidebarItems.map((item, index) => (
-        <li key={`sidebarItem-${index}`} onClick={item.func}>
+        <div key={`sidebarItem-${index}`} onClick={item.func}>
           {item.title}
-        </li>
+        </div>
       ))}
     </SidebarBox>
   );
@@ -18,4 +18,9 @@ const SidebarComponent: React.FC<Props> = ({ sidebarItems }) => {
 
 export default SidebarComponent;
 
-const SidebarBox = styled.div``;
+const SidebarBox = styled("div")({
+  borderRight: "3px solid black",
+  "& div": {
+    margin: "10px 30px",
+  },
+});
