@@ -29,5 +29,6 @@ const AdminBox = styled("div")({
   display: "flex",
 });
 const DisplayBox = styled("div")({
+  width: "50%",
   margin: "auto",
 });

@@ -142,6 +142,7 @@ export default UploadComponent;
 
 const UploadBox = styled("div")({
   display: "flex",
+  justifyContent: "center",
   margin: "50px",
 });
 const PreviewBox = styled("div")({
