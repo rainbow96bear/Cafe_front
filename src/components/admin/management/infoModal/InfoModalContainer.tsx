@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import InfoModalComponent from "./InfoModalComponent";
 import { action } from "../../../../store/modal/managementModal";
 
-const InfoModalContainer = () => {
+type Props = {
+  listItem: ItemList | null;
+};
+
+const InfoModalContainer: React.FC<Props> = ({ listItem }) => {
   const isOpen = useSelector((state: any) => state.modal.isOpen);
   const dispatch = useDispatch();
   const modalToggle = () => {
@@ -12,7 +16,8 @@ const InfoModalContainer = () => {
   return (
     <InfoModalComponent
       isOpen={isOpen}
-      modalToggle={modalToggle}></InfoModalComponent>
+      modalToggle={modalToggle}
+      listItem={listItem}></InfoModalComponent>
   );
 };
 

@@ -5,12 +5,24 @@ type Props = {
   list: any;
   isOpen: boolean;
   modalToggle: () => void;
+  setListItem: React.Dispatch<React.SetStateAction<ItemList | null>>;
+  listItem: ItemList | null;
 };
 
-const MangementComponent: React.FC<Props> = ({ list, isOpen, modalToggle }) => {
+const MangementComponent: React.FC<Props> = ({
+  list,
+  isOpen,
+  modalToggle,
+  setListItem,
+  listItem,
+}) => {
   return (
     <>
-      {isOpen ? <InfoModalContainer></InfoModalContainer> : <></>}
+      {isOpen ? (
+        <InfoModalContainer listItem={listItem}></InfoModalContainer>
+      ) : (
+        <></>
+      )}
       <ListBox>
         <ListRow>
           <div>이미지</div>
@@ -32,6 +44,7 @@ const MangementComponent: React.FC<Props> = ({ list, isOpen, modalToggle }) => {
             <div>
               <button
                 onClick={() => {
+                  setListItem(item);
                   modalToggle();
                 }}>
                 보기
@@ -45,7 +58,7 @@ const MangementComponent: React.FC<Props> = ({ list, isOpen, modalToggle }) => {
 };
 
 export default MangementComponent;
-const ListBox = styled("div")({ margin: "50px" });
+const ListBox = styled("div")({ maxWidth: "1000px", margin: "50px" });
 const ListRow = styled("div")({
   display: "flex",
   borderBottom: "1px solid lightblue",

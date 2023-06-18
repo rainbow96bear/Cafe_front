@@ -1,21 +1,30 @@
 import { styled } from "styled-components";
 
+import UploadContainer from "../../upload/UploadContainer";
+
 type Props = {
   isOpen: boolean;
   modalToggle: () => void;
+  listItem: ItemList | null;
 };
 
-const InfoModalComponent: React.FC<Props> = ({ isOpen, modalToggle }) => {
+const InfoModalComponent: React.FC<Props> = ({
+  isOpen,
+  modalToggle,
+  listItem,
+}) => {
   return (
     <ModalBox>
       <ModalActiveBox>
-        <div>안녕</div>
         <button
           onClick={() => {
             modalToggle();
           }}>
-          x
+          X
         </button>
+        {/* isModify를 redux로 변경하기 */}
+        {/* isModify? <UploadContainer listItem={listItem}></UploadContainer>:<DetailContainer listItem={listItem}></DetailContainer> */}
+        <UploadContainer listItem={listItem}></UploadContainer>
       </ModalActiveBox>
       <ModalBackground></ModalBackground>
     </ModalBox>
@@ -36,11 +45,12 @@ const ModalBackground = styled("div")({
   backgroundColor: "lightgray",
   opacity: "0.5",
   width: "100vw",
-  height: "100vh",
+  minHeight: "100vh",
 });
 const ModalActiveBox = styled("div")({
   position: "absolute",
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "white",

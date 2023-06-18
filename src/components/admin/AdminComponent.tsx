@@ -8,7 +8,9 @@ import MangementContainer from "./management/ManagementContainer";
 const AdminComponent = () => {
   return (
     <AdminBox>
-      <SideBarContainer></SideBarContainer>
+      <SideBarArea>
+        <SideBarContainer></SideBarContainer>
+      </SideBarArea>
       <DisplayBox>
         <Routes>
           <Route
@@ -16,7 +18,9 @@ const AdminComponent = () => {
             element={<MangementContainer></MangementContainer>}></Route>
           <Route
             path="/upload"
-            element={<UploadContainer></UploadContainer>}></Route>
+            element={
+              <UploadContainer listItem={null}></UploadContainer>
+            }></Route>
         </Routes>
       </DisplayBox>
     </AdminBox>
@@ -28,7 +32,7 @@ export default AdminComponent;
 const AdminBox = styled("div")({
   display: "flex",
 });
-const DisplayBox = styled("div")({
-  width: "50%",
-  margin: "auto",
-});
+
+const SideBarArea = styled("div")({});
+
+const DisplayBox = styled("div")({ margin: "auto" });

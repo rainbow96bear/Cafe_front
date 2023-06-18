@@ -16,7 +16,12 @@ interface Props {
   productKindList: string[];
   productType: string;
   productKind: string;
+  name: string;
+  price: string;
+  info: string;
   inputRef: React.RefObject<HTMLInputElement>;
+  isModify: boolean;
+  setIsModify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UploadComponent: React.FC<Props> = ({
@@ -34,39 +39,49 @@ const UploadComponent: React.FC<Props> = ({
   productKindList,
   productType,
   productKind,
+  name,
+  price,
+  info,
   inputRef,
+  isModify,
+  setIsModify,
 }) => {
   return (
     <UploadBox>
-      <input type={"file"} hidden onChange={handleFileChange} ref={inputRef} />
-      <CursorPointerDiv
-        onClick={handleDivClick}
-        onDragEnter={(e) => {
-          e.preventDefault();
-        }}
-        onDragLeave={(e) => {
-          e.preventDefault();
-        }}
-        onDragOver={(e) => {
-          e.preventDefault();
-        }}
-        onDrop={(e) => {
-          handleDrop(e);
-        }}>
-        <PreviewBox>
-          {previewURL ? (
-            <PreviewImg src={previewURL} alt="미리보기" />
-          ) : (
-            <TextDiv>
-              <div>여기를 클릭하여 이미지 파일을 선택하거나</div>
-              <div>여기로 드래그하세요.</div>
-            </TextDiv>
-          )}
-        </PreviewBox>
-      </CursorPointerDiv>
-      <InfoBox>
-        <div>
-          <p>상품</p>
+      <TopArea>
+        <input
+          type={"file"}
+          hidden
+          onChange={handleFileChange}
+          ref={inputRef}
+        />
+        <CursorPointerDiv
+          onClick={handleDivClick}
+          onDragEnter={(e) => {
+            e.preventDefault();
+          }}
+          onDragLeave={(e) => {
+            e.preventDefault();
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+          }}
+          onDrop={(e) => {
+            handleDrop(e);
+          }}>
+          <PreviewBox>
+            {previewURL ? (
+              <PreviewImg src={previewURL} alt="미리보기" />
+            ) : (
+              <TextDiv>
+                <div>여기를 클릭하거나</div>
+                <div>파일을 여기로 드래그하세요.</div>
+              </TextDiv>
+            )}
+          </PreviewBox>
+        </CursorPointerDiv>
+        <InfoBox>
+          상품
           <select
             value={productType}
             onChange={(e) => {
@@ -81,9 +96,7 @@ const UploadComponent: React.FC<Props> = ({
               </option>
             ))}
           </select>
-        </div>
-        <div>
-          <p>상품 종류</p>
+          상품 종류
           <select
             value={productKind}
             onChange={(e) => {
@@ -98,42 +111,56 @@ const UploadComponent: React.FC<Props> = ({
               </option>
             ))}
           </select>
-        </div>
-        <div>
-          <p>상품 명</p>
+          상품 명
           <input
             type="name"
             onChange={(e) => {
               setName(e.target.value);
-            }}></input>
-        </div>
-        <div>
-          <p>가격</p>
+            }}
+            value={name}></input>
+          가격
           <input
             type="number"
             onChange={(e) => {
               setPrice(e.target.value);
             }}
+            value={price}
           />
-        </div>
-        <div>
-          <p>상세 정보</p>
-          <input
-            type="text"
-            onChange={(e) => {
-              setInfo(e.target.value);
-            }}></input>
-        </div>
-        <div>
-          <p></p>
-          <button
-            onClick={() => {
-              handleFileUpload();
-            }}>
-            등록
-          </button>
-        </div>
-      </InfoBox>
+        </InfoBox>
+      </TopArea>
+      <BottomArea>
+        상세 정보
+        <textarea
+          onChange={(e) => {
+            setInfo(e.target.value);
+          }}
+          value={info}></textarea>
+        <ButtonArea>
+          {isModify ? (
+            <>
+              <button
+                onClick={() => {
+                  setIsModify(!isModify);
+                }}>
+                수정 취소
+              </button>
+              <button
+                onClick={() => {
+                  setIsModify(!isModify);
+                }}>
+                수정 완료
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                handleFileUpload();
+              }}>
+              등록
+            </button>
+          )}
+        </ButtonArea>
+      </BottomArea>
     </UploadBox>
   );
 };
@@ -141,16 +168,32 @@ const UploadComponent: React.FC<Props> = ({
 export default UploadComponent;
 
 const UploadBox = styled("div")({
-  display: "flex",
-  justifyContent: "center",
+  width: "fit-content",
   margin: "50px",
+});
+const TopArea = styled("div")({
+  "& div": {
+    flex: "1",
+  },
+  display: "flex",
+});
+const BottomArea = styled("div")({
+  marginTop: "20px",
+  "& textarea": {
+    width: "100%",
+    maxWidth: "583px",
+    height: "80px",
+    padding: "0px",
+
+    resize: "none",
+  },
 });
 const PreviewBox = styled("div")({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  width: "500px",
-  height: "500px",
+  width: "300px",
+  height: "300px",
   border: "1px solid gray",
 });
 const PreviewImg = styled("img")({
@@ -161,9 +204,9 @@ const PreviewImg = styled("img")({
 const InfoBox = styled("div")({
   boxSizing: "border-box",
   display: "flex",
-  flexDirection: "column",
   justifyContent: "space-between",
-  padding: "20px",
+  flexDirection: "column",
+  paddingLeft: "20px",
   "& input[type='number']::-webkit-outer-spin-button": {
     WebkitAppearance: "none",
     margin: "0",
@@ -189,5 +232,10 @@ const TextDiv = styled("div")({
   justifyContent: "center",
   "& div": {
     margin: "auto",
+  },
+});
+const ButtonArea = styled("div")({
+  "& button": {
+    width: "100%;",
   },
 });

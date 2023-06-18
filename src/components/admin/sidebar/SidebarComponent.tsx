@@ -19,8 +19,11 @@ const SidebarComponent: React.FC<Props> = ({ sidebarItems }) => {
 export default SidebarComponent;
 
 const SidebarBox = styled("div")({
+  boxSizing: "border-box",
+  height: "100%",
   borderRight: "3px solid black",
+  padding: "20px 30px",
   "& div": {
-    margin: "10px 30px",
+    marginBottom: "20px",
   },
 });

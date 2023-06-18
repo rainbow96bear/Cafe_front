@@ -2,8 +2,11 @@ import { useEffect, useState, useRef } from "react";
 
 import UploadComponent from "./UploadComponent";
 import axios from "axios";
-
-const UploadContainer = () => {
+type Props = {
+  listItem: ItemList | null;
+};
+const UploadContainer: React.FC<Props> = ({ listItem }) => {
+  const [isModify, setIsModify] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const [productType, setProductType] = useState("");
   const [productKind, setProductKind] = useState("");
@@ -78,7 +81,16 @@ const UploadContainer = () => {
     };
     reader.readAsDataURL(files[0]);
   };
-
+  useEffect(() => {
+    console.log(listItem);
+    if (listItem != null) {
+      setIsModify(true);
+      setProductKind(listItem?.productKind);
+      setName(listItem?.productName);
+      setPrice(listItem?.price);
+      setInfo(listItem?.info);
+    }
+  }, []);
   useEffect(() => {
     const index = productTypeList.indexOf(productType);
     setProductKindList(productKindListObj[index]);
@@ -99,7 +111,12 @@ const UploadContainer = () => {
       productKindList={productKindList}
       productType={productType}
       productKind={productKind}
-      inputRef={inputRef}></UploadComponent>
+      name={name}
+      price={price}
+      info={info}
+      inputRef={inputRef}
+      isModify={isModify}
+      setIsModify={setIsModify}></UploadComponent>
   );
 };
 
