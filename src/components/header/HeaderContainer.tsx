@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import HeaderConponent from "./HeaderComponent";
 import {
@@ -8,7 +9,6 @@ import {
   checkSessionThunk,
   disconnectThunk,
 } from "../../store/web3";
-import axios from "axios";
 
 const HeaderContainer = () => {
   const dispatch = useDispatch<any>();
@@ -43,7 +43,7 @@ const HeaderContainer = () => {
     dispatch(checkSessionThunk());
   }, []);
 
-  const testItems = [
+  const dropdownItems = [
     { text: "disconnect", func: disConnectWalletFunc },
     {
       text: "admin",
@@ -52,11 +52,15 @@ const HeaderContainer = () => {
       },
     },
   ];
+  const moveto = (where: string) => {
+    navigate(`/${where}`);
+  };
   return (
     <HeaderConponent
       connectWalletFunc={connectWalletFunc}
       AccountInfo={AccountInfo}
-      items={testItems}></HeaderConponent>
+      items={dropdownItems}
+      moveto={moveto}></HeaderConponent>
   );
 };
 

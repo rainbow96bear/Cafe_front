@@ -21,7 +21,7 @@ interface Props {
   info: string;
   inputRef: React.RefObject<HTMLInputElement>;
   isModify: boolean;
-  setIsModify: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleModify: (option?: string) => void;
 }
 
 const UploadComponent: React.FC<Props> = ({
@@ -44,7 +44,7 @@ const UploadComponent: React.FC<Props> = ({
   info,
   inputRef,
   isModify,
-  setIsModify,
+  toggleModify,
 }) => {
   return (
     <UploadBox>
@@ -140,13 +140,13 @@ const UploadComponent: React.FC<Props> = ({
             <>
               <button
                 onClick={() => {
-                  setIsModify(!isModify);
+                  toggleModify();
                 }}>
                 수정 취소
               </button>
               <button
                 onClick={() => {
-                  setIsModify(!isModify);
+                  toggleModify("close");
                 }}>
                 수정 완료
               </button>

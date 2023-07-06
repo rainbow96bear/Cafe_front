@@ -1,12 +1,16 @@
 import { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 import UploadComponent from "./UploadComponent";
-import axios from "axios";
+import { action as utilsAction } from "../../../store/utils";
+
 type Props = {
   listItem: ItemList | null;
 };
 const UploadContainer: React.FC<Props> = ({ listItem }) => {
-  const [isModify, setIsModify] = useState(false);
+  const isModify = useSelector((state: any) => state.utils.modify);
+  const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const [productType, setProductType] = useState("");
   const [productKind, setProductKind] = useState("");
@@ -81,10 +85,15 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
     };
     reader.readAsDataURL(files[0]);
   };
+  const toggleModify = (option?: string) => {
+    if (option == "close") {
+      dispatch(utilsAction.closeModify());
+    } else {
+      dispatch(utilsAction.toggleModify());
+    }
+  };
   useEffect(() => {
-    console.log(listItem);
     if (listItem != null) {
-      setIsModify(true);
       setProductKind(listItem?.productKind);
       setName(listItem?.productName);
       setPrice(listItem?.price);
@@ -116,7 +125,7 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
       info={info}
       inputRef={inputRef}
       isModify={isModify}
-      setIsModify={setIsModify}></UploadComponent>
+      toggleModify={toggleModify}></UploadComponent>
   );
 };
 

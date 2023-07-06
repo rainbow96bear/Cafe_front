@@ -4,9 +4,10 @@ import thunkMiddleware from "redux-thunk";
 import { reducer as thema } from "./thema";
 import { reducer as web3 } from "./web3";
 import { reducer as modal } from "./modal/managementModal";
+import { reducer as utils } from "./utils";
 
 export const store = configureStore({
-  reducer: { thema: thema, web3: web3, modal: modal },
+  reducer: { thema: thema, web3: web3, modal: modal, utils: utils },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(thunkMiddleware),
   // configureStore는 객체를 매개변수로 받으며 객체 내에서 reducer, middleware 등 store에 필요한 작업을 할 수 있다.

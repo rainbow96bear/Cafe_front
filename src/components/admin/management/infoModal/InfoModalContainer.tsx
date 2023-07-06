@@ -2,21 +2,31 @@ import { useSelector, useDispatch } from "react-redux";
 
 import InfoModalComponent from "./InfoModalComponent";
 import { action } from "../../../../store/modal/managementModal";
+import { action as utilsAction } from "../../../../store/utils";
+import { useEffect } from "react";
 
 type Props = {
   listItem: ItemList | null;
 };
 
 const InfoModalContainer: React.FC<Props> = ({ listItem }) => {
-  const isOpen = useSelector((state: any) => state.modal.isOpen);
+  const isModify = useSelector((state: any) => state.utils.modify);
   const dispatch = useDispatch();
-  const modalToggle = () => {
+  const toggleModal = () => {
     dispatch(action.toggle());
+  };
+  const toggleModify = (option?: string) => {
+    if (option == "close") {
+      dispatch(utilsAction.closeModify());
+    } else {
+      dispatch(utilsAction.toggleModify());
+    }
   };
   return (
     <InfoModalComponent
-      isOpen={isOpen}
-      modalToggle={modalToggle}
+      isModify={isModify}
+      toggleModal={toggleModal}
+      toggleModify={toggleModify}
       listItem={listItem}></InfoModalComponent>
   );
 };
