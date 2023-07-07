@@ -3,10 +3,12 @@ import { styled } from "styled-components";
 type Props = {
   listItem: ItemList | null;
   toggleModify: () => void;
+  deleteItem: () => void;
 };
 const ProductDetailComponent: React.FC<Props> = ({
   listItem,
   toggleModify,
+  deleteItem,
 }) => {
   console.log(listItem);
   return (
@@ -23,12 +25,20 @@ const ProductDetailComponent: React.FC<Props> = ({
         </DetailSimpleInfoBox>
       </DetailFirstRow>
       <DetailInfo>{listItem?.info}</DetailInfo>
-      <ModifyBtn
-        onClick={() => {
-          toggleModify();
-        }}>
-        수정
-      </ModifyBtn>
+      <BtnBox>
+        <FunctionBtn
+          onClick={() => {
+            toggleModify();
+          }}>
+          수정
+        </FunctionBtn>
+        <FunctionBtn
+          onClick={() => {
+            deleteItem();
+          }}>
+          삭제
+        </FunctionBtn>
+      </BtnBox>
     </DetailBox>
   );
 };
@@ -45,6 +55,10 @@ const DetailImg = styled("img")({
 });
 const DetailSimpleInfoBox = styled("div")({});
 const DetailInfo = styled("div")({});
-const ModifyBtn = styled("button")({
+const BtnBox = styled("btn")({
   width: "100%",
+  display: "flex",
+});
+const FunctionBtn = styled("button")({
+  flex: "1",
 });
