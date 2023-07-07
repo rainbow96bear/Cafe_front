@@ -24,7 +24,7 @@ const MangementContainer = () => {
     });
 
     const getList = async () => {
-      const result = await axios.get("/api/productList/getList", {
+      const result = await axios.get("/api/product/getList", {
         params: queryData,
       });
       setList(result.data);
