@@ -45,7 +45,7 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
         alert("모두 정확히 입력하세요");
       }
       // 이미지를 업로드하기 위해 서버로 요청을 보냅니다.
-      const result = await axios.post("/api/upload/product", formData);
+      const result = await axios.post("/api/product/upload", formData);
       // 업로드 결과를 처리합니다.
       console.log(result);
     } catch (error) {
