@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import InfoModalComponent from "./InfoModalComponent";
 import { action } from "../../../../store/modal/managementModal";
 import { action as utilsAction } from "../../../../store/utils";
-import { useEffect } from "react";
 
 type Props = {
   listItem: ItemList | null;
