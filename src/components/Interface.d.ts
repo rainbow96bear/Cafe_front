@@ -1,6 +1,7 @@
 interface DropdownItems {
   text: string;
-  func: (where?: string) => void | useNavigate;
+  path: string;
+  func?: any;
 }
 
 interface ItemList {
@@ -9,6 +10,7 @@ interface ItemList {
   id: string;
   info: string;
   price: string;
+  productType: string;
   productKind: string;
   productName: string;
   updatedAt: string;

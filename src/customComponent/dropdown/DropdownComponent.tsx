@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 import CursorPointerDiv from "../CursorPointerDiv";
-
+import SimpleLink from "../SimpleLink";
 type Props = {
   toggleDropdown: () => void;
   isOpen: boolean;
@@ -26,15 +26,17 @@ const DropdownComponent: React.FC<Props> = ({
       {isOpen && (
         <ItemBox>
           {items.map((item, index) => (
-            <CursorPointerDiv key={`list-${index}`}>
-              <li
-                onClick={() => {
-                  item.func();
-                  toggleDropdown();
-                }}>
-                {item.text}
-              </li>
-            </CursorPointerDiv>
+            <SimpleLink
+              key={`list-${index}`}
+              to={item.path}
+              onClick={() => {
+                {
+                  item.func ? item.func() : console.log();
+                }
+                toggleDropdown();
+              }}>
+              {item.text}
+            </SimpleLink>
           ))}
         </ItemBox>
       )}
@@ -45,6 +47,8 @@ const DropdownComponent: React.FC<Props> = ({
 export default DropdownComponent;
 
 const ItemBox = styled.ul`
+  display: flex;
+  flex-direction: column;
   border: 1px solid lightgray;
   background-color: white;
   width: fir-content;

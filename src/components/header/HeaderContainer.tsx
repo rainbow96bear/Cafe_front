@@ -22,14 +22,6 @@ const HeaderContainer = () => {
       alert("metamask 설치해주세요");
     }
   };
-  const disConnectWalletFunc = async () => {
-    if (window.ethereum) {
-      dispatch(disconnectThunk());
-      navigate("/");
-    } else {
-      alert("metamask 설치해주세요");
-    }
-  };
 
   useEffect(() => {
     window.ethereum.on("accountsChanged", async () => {
@@ -43,15 +35,6 @@ const HeaderContainer = () => {
     dispatch(checkSessionThunk());
   }, []);
 
-  const dropdownItems = [
-    { text: "disconnect", func: disConnectWalletFunc },
-    {
-      text: "admin",
-      func: () => {
-        navigate("/admin");
-      },
-    },
-  ];
   const moveto = (where: string) => {
     navigate(`/${where}`);
   };
@@ -59,7 +42,6 @@ const HeaderContainer = () => {
     <HeaderConponent
       connectWalletFunc={connectWalletFunc}
       AccountInfo={AccountInfo}
-      items={dropdownItems}
       moveto={moveto}></HeaderConponent>
   );
 };

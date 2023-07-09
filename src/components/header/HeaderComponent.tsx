@@ -2,18 +2,18 @@ import styled from "styled-components";
 
 import CursorPointerDiv from "../../customComponent/CursorPointerDiv";
 import DropdownContainer from "../../customComponent/dropdown/DropdownContainer";
-
+import { dropdownItems } from "../utils/value/dropdown";
 type Props = {
   connectWalletFunc: () => void;
+
   AccountInfo: { account: string };
-  items: DropdownItems[];
   moveto: (where: string) => void;
 };
 
 const HeaderConponent: React.FC<Props> = ({
   connectWalletFunc,
+
   AccountInfo,
-  items,
   moveto,
 }) => {
   return (
@@ -39,7 +39,7 @@ const HeaderConponent: React.FC<Props> = ({
                 0,
                 5
               )}...${AccountInfo?.account.slice(-3)}`}
-              items={items}></DropdownContainer>
+              items={dropdownItems}></DropdownContainer>
           </ConnectBox>
         )}
       </HeaderBtn>
