@@ -3,11 +3,13 @@ import { styled } from "styled-components";
 type Props = {
   listItem: ItemList | null;
   toggleModify: () => void;
+  modalToggle: () => void;
   deleteItem: () => void;
 };
 const ProductDetailComponent: React.FC<Props> = ({
   listItem,
   toggleModify,
+  modalToggle,
   deleteItem,
 }) => {
   console.log(listItem);
@@ -33,8 +35,9 @@ const ProductDetailComponent: React.FC<Props> = ({
           수정
         </FunctionBtn>
         <FunctionBtn
-          onClick={() => {
-            deleteItem();
+          onClick={async () => {
+            await deleteItem();
+            await modalToggle();
           }}>
           삭제
         </FunctionBtn>
