@@ -1,9 +1,11 @@
 import { styled } from "styled-components";
 import CursorPointerDiv from "../../../customComponent/CursorPointerDiv";
+import { Link } from "react-router-dom";
 
 interface Props {
   previewURL: string | null;
   handleFileUpload: () => void;
+  handleFileModify: () => void;
   setProductType: React.Dispatch<React.SetStateAction<string>>;
   setProductKind: React.Dispatch<React.SetStateAction<string>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
@@ -27,6 +29,7 @@ interface Props {
 const UploadComponent: React.FC<Props> = ({
   previewURL,
   handleFileUpload,
+  handleFileModify,
   setProductType,
   setProductKind,
   setName,
@@ -55,6 +58,7 @@ const UploadComponent: React.FC<Props> = ({
           onChange={handleFileChange}
           ref={inputRef}
         />
+
         <CursorPointerDiv
           onClick={handleDivClick}
           onDragEnter={(e) => {
@@ -82,20 +86,24 @@ const UploadComponent: React.FC<Props> = ({
         </CursorPointerDiv>
         <InfoBox>
           상품
-          <select
-            value={productType}
-            onChange={(e) => {
-              setProductType(e.target.value);
-            }}>
-            <option value={""} disabled>
-              상품을 선택하세요
-            </option>
-            {productList.map((item, index) => (
-              <option value={item} key={`product-${index}`}>
-                {item}
+          {isModify ? (
+            <input value={productType} readOnly></input>
+          ) : (
+            <select
+              value={productType}
+              onChange={(e) => {
+                setProductType(e.target.value);
+              }}>
+              <option value={""} disabled>
+                상품을 선택하세요
               </option>
-            ))}
-          </select>
+              {productList.map((item, index) => (
+                <option value={item} key={`product-${index}`}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          )}
           상품 종류
           <select
             value={productKind}
@@ -146,6 +154,7 @@ const UploadComponent: React.FC<Props> = ({
               </button>
               <button
                 onClick={() => {
+                  handleFileModify();
                   toggleModify("close");
                 }}>
                 수정 완료
@@ -197,8 +206,8 @@ const PreviewBox = styled("div")({
   border: "1px solid gray",
 });
 const PreviewImg = styled("img")({
-  width: "500px",
-  maxHeight: "500px",
+  maxWidth: "100%",
+  maxHeight: "100%",
 });
 
 const InfoBox = styled("div")({
@@ -217,6 +226,7 @@ const InfoBox = styled("div")({
   },
   "& div": {
     width: "100%",
+    maxHeight: "10px",
     "& select": {
       width: "100%",
     },
@@ -225,6 +235,7 @@ const InfoBox = styled("div")({
     },
   },
 });
+const TypeDiv = styled("div")({});
 const TextDiv = styled("div")({
   display: "flex",
   flexDirection: "column",

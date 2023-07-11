@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import UploadComponent from "./UploadComponent";
 import { action as utilsAction } from "../../../store/utils";
+import { typeList, kindList } from "../../utils/value/product";
 
 type Props = {
   listItem: ItemList | null;
@@ -19,11 +20,8 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
   const [info, setInfo] = useState("");
   const [previewURL, setPreviewURL] = useState<string | null>(null);
   const [productKindList, setProductKindList] = useState<string[]>([]);
-  const productTypeList = ["커피", "굿즈"];
-  const productKindListObj = [
-    ["커피", "라떼"],
-    ["키링", "머그컵", "텀블러"],
-  ];
+  const productTypeList = typeList;
+  const productKindListObj = kindList;
 
   const handleFileUpload = async () => {
     try {
@@ -47,7 +45,44 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
       // 이미지를 업로드하기 위해 서버로 요청을 보냅니다.
       const result = await axios.post("/api/product/upload", formData);
       // 업로드 결과를 처리합니다.
-      console.log(result);
+      alert(result.data.message);
+      if (result.data.status == 200) {
+        reset();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleFileModify = async () => {
+    try {
+      const formData = new FormData();
+      if (selectedFile != null) {
+        formData.append("file", selectedFile);
+      }
+      if (
+        productType != "null" &&
+        productKind != "" &&
+        price != "" &&
+        info != "" &&
+        listItem?.id
+      ) {
+        formData.append("name", name);
+        formData.append("productType", productType);
+        formData.append("productKind", productKind);
+        formData.append("price", String(price));
+        formData.append("info", info);
+        formData.append("productID", listItem?.id);
+      } else {
+        alert("모두 정확히 입력하세요");
+      }
+      // 이미지를 업로드하기 위해 서버로 요청을 보냅니다.
+
+      const result = await axios.put("/api/product/modify", formData);
+      // 업로드 결과를 처리합니다.
+      alert(result.data.message);
+      if (result.data.status == 200) {
+        reset();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -92,8 +127,21 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
       dispatch(utilsAction.toggleModify());
     }
   };
+
+  const reset = () => {
+    setSelectedFile(null);
+    setProductType("");
+    setProductKind("");
+    setName("");
+    setPrice("");
+    setInfo("");
+    setPreviewURL(null);
+  };
+
   useEffect(() => {
     if (listItem != null) {
+      setPreviewURL(`http://localhost:8080/imgsrc/${listItem?.fileName}`);
+      setProductType(listItem?.productType);
       setProductKind(listItem?.productKind);
       setName(listItem?.productName);
       setPrice(listItem?.price);
@@ -108,6 +156,7 @@ const UploadContainer: React.FC<Props> = ({ listItem }) => {
     <UploadComponent
       previewURL={previewURL}
       handleFileUpload={handleFileUpload}
+      handleFileModify={handleFileModify}
       setProductType={setProductType}
       setProductKind={setProductKind}
       setName={setName}
