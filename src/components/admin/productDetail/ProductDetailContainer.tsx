@@ -29,14 +29,15 @@ const ProductDetailContainer: React.FC<Props> = ({ listItem }) => {
         productID: listItem?.id,
       },
     });
-    if (result.data != "error") {
-      modalToggle();
+    if (result.data.status == 200) {
+      alert("삭제하였습니다.");
     }
   };
   return (
     <ProductDetailComponent
       listItem={listItem}
       toggleModify={toggleModify}
+      modalToggle={modalToggle}
       deleteItem={deleteItem}></ProductDetailComponent>
   );
 };
