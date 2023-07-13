@@ -9,9 +9,9 @@ const AdminContainer = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (AccountInfo.admin == false) {
-      navigate("/");
-    }
+    // if (AccountInfo.admin == false) {
+    //   navigate("/");
+    // }
   }, [AccountInfo.admin]);
 
   return <AdminComponent></AdminComponent>;
